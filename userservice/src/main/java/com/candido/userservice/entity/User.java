@@ -6,7 +6,11 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Entity
+/**
+ * @author Douglas Candido
+ *
+ */
+@Entity(name = "users")
 @Getter
 @Setter
 public class User {
