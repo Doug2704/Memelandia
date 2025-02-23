@@ -1,0 +1,72 @@
+services:
+  userservice:
+    build:
+      context: userservice
+      dockerfile: userservice/Dockerfile
+    image: userservice
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${MEMELANDIA-USER-URL}
+      SPRING_DATASOURCE_USERNAME: ${MEMELANDIA-USER-USER}
+      SPRING_DATASOURCE_PASSWORD: ${MEMELANDIA-USER-PASSWORD}
+    depends_on:
+      - userservice-db
+
+  memeservice:
+    build:
+      context: memeservice
+      dockerfile: memeservice/Dockerfile
+    image: memeservice
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${MEMELANDIA-MEME-URL}
+      SPRING_DATASOURCE_USERNAME: ${MEMELANDIA-MEME-USER}
+      SPRING_DATASOURCE_PASSWORD: ${MEMELANDIA-MEME-PASSWORD}
+    depends_on:
+      - memeservice-db
+
+  memecategoryservice:
+    build:
+      context: memecategoryservice
+      dockerfile: memecategoryservice/Dockerfile
+    image: memecategoryservice
+    ports:
+      - "8083:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${MEMELANDIA-CATEGORY-URL}
+      SPRING_DATASOURCE_USERNAME: ${MEMELANDIA-CATEGORY-USER}
+      SPRING_DATASOURCE_PASSWORD: ${MEMELANDIA-CATEGORY-PASSWORD}
+    depends_on:
+      - memecategoryservice-db
+
+  userservice-db:
+    image: postgres:latest
+    container_name: userservice-db
+    environment:
+      POSTGRES_USER: ${MEME-DB-USER-USER}
+      POSTGRES_PASSWORD: ${MEME-DB-USER-PASSWORD}
+      POSTGRES_DB: ${MEME-DB-USER-DB}
+    ports:
+      - "5433:5432"
+
+  memeservice-db:
+    image: postgres:latest
+    container_name: memeservice-db
+    environment:
+      POSTGRES_USER: ${MEME-DB-MEME-USER}
+      POSTGRES_PASSWORD: ${MEME-DB-MEME-PASSWORD}
+      POSTGRES_DB: ${MEME-DB-MEME-DB}
+    ports:
+      - "5434:5432"
+
+  memecategoryservice-db:
+    image: postgres:latest
+    container_name: memecategoryservice-db
+    environment:
+      POSTGRES_USER: ${MEME-DB-MEMECATEGORY-USER}
+      POSTGRES_PASSWORD: ${MEME-DB-MEMECATEGORY-PASSWORD}
+      POSTGRES_DB: ${MEME-DB-MEMECATEGORY-DB}
+    ports:
+      - "5435:5432"
