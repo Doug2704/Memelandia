@@ -6,12 +6,15 @@ import lombok.Setter;
 
 import java.util.Date;
 
+/**
+ * @author Douglas Candido
+ */
 @Entity
 @Getter
 @Setter
 public class Meme {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_meme")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -21,14 +24,15 @@ public class Meme {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    @Column(name = "url", nullable = false)
+    private String url;
+
     @Column(name = "data_cadastro", nullable = false)
     private Date dataCadastro;
 
-    @ManyToOne
     @JoinColumn(name = "categoria_meme_id")
     private Long idCategory;
 
-    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Long idUser;
 

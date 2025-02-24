@@ -43,8 +43,12 @@ public class UserService {
         Optional<User> retrievedUser = userRepository.findById(id);
         try {
             User newUser = retrievedUser.get();
-            newUser.setNome(user.getNome());
-            newUser.setEmail(user.getEmail());
+            if (user.getNome() != null) {
+                newUser.setNome(user.getNome());
+            }
+            if (user.getEmail() != null) {
+                newUser.setEmail(user.getEmail());
+            }
             return userRepository.save(newUser);
         } catch (RuntimeException e) {
             if (retrievedUser.isEmpty()) {
