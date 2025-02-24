@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 public class MemeCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_categoria_meme")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -25,10 +25,6 @@ public class MemeCategory {
 
     @Column(name = "data_cadastro", nullable = false)
     private Date dataCadastro;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Long idUser;
 
     public MemeCategory() {
     }
