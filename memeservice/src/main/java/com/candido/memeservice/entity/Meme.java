@@ -30,10 +30,10 @@ public class Meme {
     @Column(name = "data_cadastro", nullable = false)
     private Date dataCadastro;
 
-    @JoinColumn(name = "categoria_meme_id")
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Long idCategory;
 
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Long idUser;
 
     public Meme() {

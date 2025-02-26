@@ -1,5 +1,6 @@
 package com.candido.memeservice.controller;
 
+import com.candido.memeservice.dto.MemeDTO;
 import com.candido.memeservice.entity.Meme;
 import com.candido.memeservice.service.MemeService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,8 @@ public class MemeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         try {
-            Meme retrievedMeme = memeService.findById(id).get();
-            return new ResponseEntity<>(retrievedMeme, HttpStatus.OK);
+            MemeDTO retrievedMemeDTO = memeService.findById(id);
+            return new ResponseEntity<>(retrievedMemeDTO, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
         }

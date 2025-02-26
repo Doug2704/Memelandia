@@ -1,5 +1,9 @@
 package com.candido.memeservice.service;
 
+import com.candido.memeservice.dto.CategoryDTO;
+import com.candido.memeservice.dto.MemeDTO;
+import com.candido.memeservice.dto.MemeMapper;
+import com.candido.memeservice.dto.UserDTO;
 import com.candido.memeservice.entity.Meme;
 import com.candido.memeservice.repository.MemeRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +24,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemeService {
     private final MemeRepository memeRepository;
+    private final UserServiceClient userServiceClient;
+    private final CategoryServiceClient categoryServiceClient;
 
     public Meme createMeme(Meme meme) {
         return memeRepository.save(meme);
     }
 
-    public Optional<Meme> findById(Long id) {
-        Optional<Meme> retrievedMeme = memeRepository.findById(id);
-
+    public MemeDTO findById(Long id) {
+        Meme retrievedMeme = memeRepository.findById(id).orElseThrow(() -> new RuntimeException("Meme inexistente"));
         try {
-            return memeRepository.findById(id);
+            UserDTO userDTO = userServiceClient.getUser(retrievedMeme.getIdUser());
+            CategoryDTO categoryDTO = categoryServiceClient.getCategory(retrievedMeme.getIdCategory());
+            return MemeMapper.toDto(retrievedMeme, categoryDTO, userDTO);
         } catch (RuntimeException e) {
-            if (retrievedMeme.isEmpty()) {
-                throw new RuntimeException("Meme inexistente");
-            }
             throw e;
         }
     }
