@@ -10,7 +10,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar /app/userservice.jar
+COPY --from=build /app/target/*.jar /app/memeservice.jar
 
 EXPOSE 8080
 
