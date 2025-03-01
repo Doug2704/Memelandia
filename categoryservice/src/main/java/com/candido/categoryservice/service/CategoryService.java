@@ -61,7 +61,7 @@ public class CategoryService {
     public List<MemeCategory> findAll() {
 
         try {
-            log.info("Buscando cateforias de memes...");
+            log.info("Buscando categorias de memes...");
             long startTime = System.currentTimeMillis();
             List<MemeCategory> categories = categoryRepository.findAll();
 
