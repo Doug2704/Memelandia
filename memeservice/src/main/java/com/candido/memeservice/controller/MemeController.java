@@ -4,6 +4,8 @@ import com.candido.memeservice.dto.MemeDTO;
 import com.candido.memeservice.entity.Meme;
 import com.candido.memeservice.service.MemeService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +21,16 @@ import java.util.List;
 @RequestMapping("/api/v1/memes")
 public class MemeController {
 
+    private static final Logger log = LoggerFactory.getLogger(MemeController.class);
     private final MemeService memeService;
 
     @PostMapping("/create")
     public ResponseEntity<Meme> createMeme(@RequestBody Meme meme) {
+        log.info("Recebida requisicao para criar meme");
+
         try {
             Meme createdMeme = memeService.createMeme(meme);
+
             return new ResponseEntity<>(createdMeme, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
@@ -33,6 +39,8 @@ public class MemeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
+        log.info("Recebida requisicao para buscar meme pelo id: {}", id);
+
         try {
             MemeDTO retrievedMemeDTO = memeService.findById(id);
             return new ResponseEntity<>(retrievedMemeDTO, HttpStatus.OK);
@@ -43,13 +51,16 @@ public class MemeController {
 
     @GetMapping
     public ResponseEntity<List<Meme>> findAll() {
+        log.info("Recebida requisicao para buscar todos os memes");
         return new ResponseEntity<>(memeService.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Meme> update(@PathVariable Long id, @RequestBody Meme meme) {
+        log.info("Recebida requisicao para atualizar meme com id: {}", id);
+
         try {
-            Meme updatedMeme = memeService.updateUser(id, meme);
+            Meme updatedMeme = memeService.updateMeme(id, meme);
             return new ResponseEntity<>(updatedMeme, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
