@@ -27,7 +27,6 @@ public class MemeController {
     @PostMapping("/create")
     public ResponseEntity<Meme> createMeme(@RequestBody Meme meme) {
         log.info("Recebida requisicao para criar meme");
-
         try {
             Meme createdMeme = memeService.createMeme(meme);
 
@@ -40,7 +39,6 @@ public class MemeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Recebida requisicao para buscar meme pelo id: {}", id);
-
         try {
             MemeDTO retrievedMemeDTO = memeService.findById(id);
             return new ResponseEntity<>(retrievedMemeDTO, HttpStatus.OK);
@@ -58,7 +56,6 @@ public class MemeController {
     @PutMapping("/{id}")
     public ResponseEntity<Meme> update(@PathVariable Long id, @RequestBody Meme meme) {
         log.info("Recebida requisicao para atualizar meme com id: {}", id);
-
         try {
             Meme updatedMeme = memeService.updateMeme(id, meme);
             return new ResponseEntity<>(updatedMeme, HttpStatus.OK);

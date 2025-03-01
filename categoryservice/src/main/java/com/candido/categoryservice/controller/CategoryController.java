@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Douglas Candido
@@ -39,8 +40,11 @@ public class CategoryController {
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Recebida requisicao para buscar categoria com id: {}", id);
 
+        Optional<MemeCategory> retrievedMemeCategory = categoryService.findById(id);
         try {
-            MemeCategory retrievedMemeCategory = categoryService.findById(id).get();
+            if (retrievedMemeCategory.isEmpty()) {
+                return new ResponseEntity<>("Categoria de memes inexistente", HttpStatus.OK);
+            }
             return new ResponseEntity<>(retrievedMemeCategory, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
@@ -54,11 +58,14 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<MemeCategory> update(@PathVariable Long id, @RequestBody MemeCategory category) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MemeCategory category) {
         log.info("Recebida requisicao para atualizar categoria com id: {}", id);
+        Optional<MemeCategory> updatedMemeCategory = categoryService.updateCategory(id, category);
 
         try {
-            MemeCategory updatedMemeCategory = categoryService.updateCategory(id, category);
+            if (updatedMemeCategory.isEmpty()) {
+                return new ResponseEntity<>("Categoria de memes inexistente", HttpStatus.OK);
+            }
             return new ResponseEntity<>(updatedMemeCategory, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;

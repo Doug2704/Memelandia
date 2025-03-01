@@ -49,7 +49,6 @@ public class MemeService {
         }
     }
 
-
     public MemeDTO findById(Long id) {
         log.info("Buscando meme com id: {}...", id);
         long startTime = System.currentTimeMillis();

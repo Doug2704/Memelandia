@@ -49,8 +49,13 @@ public class CategoryService {
         Optional<MemeCategory> retrievedMemeCategory = categoryRepository.findById(id);
 
         try {
+            if (retrievedMemeCategory.isPresent()) {
+                long endTime = System.currentTimeMillis();
+                log.info("Categoria retornada com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
+                return retrievedMemeCategory;
+            }
             long endTime = System.currentTimeMillis();
-            log.info("Categoria retornada com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
+            log.error("Categoria de memes inexistente. Tempo de processamento: {}ms", (endTime - startTime));
             return retrievedMemeCategory;
         } catch (RuntimeException e) {
             log.error("Erro ao buscar categoria: {}", e.getMessage(), e);
@@ -74,25 +79,30 @@ public class CategoryService {
         }
     }
 
-    public MemeCategory updateCategory(Long id, MemeCategory memeCategory) {
+    public Optional<MemeCategory> updateCategory(Long id, MemeCategory memeCategory) {
         log.info("Atualizando categoria com id: {}...", id);
         long startTime = System.currentTimeMillis();
         Optional<MemeCategory> retrievedMemeCategory = categoryRepository.findById(id);
 
         try {
-            MemeCategory newMemeCategory = retrievedMemeCategory.get();
+            if (retrievedMemeCategory.isPresent()) {
+                MemeCategory newMemeCategory = retrievedMemeCategory.get();
 
-            if (memeCategory.getNome() != null) {
-                newMemeCategory.setNome(memeCategory.getNome());
-            }
-            if (memeCategory.getDescricao() != null) {
-                newMemeCategory.setDescricao(memeCategory.getDescricao());
-            }
-            MemeCategory savedCategory = categoryRepository.save(newMemeCategory);
+                if (memeCategory.getNome() != null) {
+                    newMemeCategory.setNome(memeCategory.getNome());
+                }
+                if (memeCategory.getDescricao() != null) {
+                    newMemeCategory.setDescricao(memeCategory.getDescricao());
+                }
+                MemeCategory savedCategory = categoryRepository.save(newMemeCategory);
 
+                long endTime = System.currentTimeMillis();
+                log.info("Categoria atualizada com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
+                return Optional.of(savedCategory);
+            }
             long endTime = System.currentTimeMillis();
-            log.info("Categoria atualizada com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
-            return savedCategory;
+            log.error("Categoria de memes inexistente. Tempo de processamento: {}ms", (endTime - startTime));
+            return retrievedMemeCategory;
         } catch (RuntimeException e) {
             if (retrievedMemeCategory.isEmpty()) {
                 log.error("Erro ao buscar categoria: {}", e.getMessage(), e);
