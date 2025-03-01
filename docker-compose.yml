@@ -1,4 +1,12 @@
 services:
+  gatewayservice:
+    build:
+      context: apigateway
+      dockerfile: Dockerfile
+    image: api-gateway
+    ports:
+      - "8080:8080"
+
   userservice:
     build:
       context: userservice

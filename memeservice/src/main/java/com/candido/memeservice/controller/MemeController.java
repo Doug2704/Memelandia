@@ -46,7 +46,7 @@ public class MemeController {
         return new ResponseEntity<>(memeService.findAll(), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Meme> update(@PathVariable Long id, @RequestBody Meme meme) {
         try {
             Meme updatedMeme = memeService.updateUser(id, meme);
