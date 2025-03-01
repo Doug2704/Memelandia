@@ -3,6 +3,8 @@ package com.candido.categoryservice.controller;
 import com.candido.categoryservice.entity.MemeCategory;
 import com.candido.categoryservice.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +21,12 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 
     @PostMapping("/create")
     public ResponseEntity<MemeCategory> createMemeCategory(@RequestBody MemeCategory category) {
+        log.info("Recebida requisicao para criar categoria");
+
         try {
             MemeCategory createdMemeCategory = categoryService.createMemeCategory(category);
             return new ResponseEntity<>(createdMemeCategory, HttpStatus.OK);
@@ -32,6 +37,8 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
+        log.info("Recebida requisicao para buscar categoria com id: {}", id);
+
         try {
             MemeCategory retrievedMemeCategory = categoryService.findById(id).get();
             return new ResponseEntity<>(retrievedMemeCategory, HttpStatus.OK);
@@ -42,11 +49,14 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<MemeCategory>> findAll() {
+        log.info("Recebida requisicao para buscar categorias");
         return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<MemeCategory> update(@PathVariable Long id, @RequestBody MemeCategory category) {
+        log.info("Recebida requisicao para atualizar categoria com id: {}", id);
+
         try {
             MemeCategory updatedMemeCategory = categoryService.updateCategory(id, category);
             return new ResponseEntity<>(updatedMemeCategory, HttpStatus.OK);

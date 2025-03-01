@@ -98,10 +98,10 @@ public class MemeService {
             return savedMeme;
         } catch (RuntimeException e) {
             if (retrievedMeme.isEmpty()) {
-                log.error("Erro ao buscar meme: {}", e.getMessage(), e);
+                log.error("Erro ao atualizar meme: {}", e.getMessage(), e);
                 throw new RuntimeException("Meme inexistente");
             }
-            log.error("Erro ao buscar meme: {}", e.getMessage(), e);
+            log.error("Erro ao atualizar meme: {}", e.getMessage(), e);
             throw e;
         }
     }
