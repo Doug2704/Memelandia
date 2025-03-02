@@ -49,16 +49,22 @@ public class MemeService {
         }
     }
 
-    public MemeDTO findById(Long id) {
+    public Optional<MemeDTO> findById(Long id) {
         log.info("Buscando meme com id: {}...", id);
         long startTime = System.currentTimeMillis();
-        Meme retrievedMeme = memeRepository.findById(id).orElseThrow(() -> new RuntimeException("Meme inexistente"));
+        Optional<Meme> retrievedMeme = memeRepository.findById(id);
         try {
-            UserDTO userDTO = userServiceClient.getUser(retrievedMeme.getIdUser());
-            CategoryDTO categoryDTO = categoryServiceClient.getCategory(retrievedMeme.getIdCategory());
+            if (retrievedMeme.isPresent()) {
+                UserDTO userDTO = userServiceClient.getUser(retrievedMeme.get().getIdUser());
+                CategoryDTO categoryDTO = categoryServiceClient.getCategory(retrievedMeme.get().getIdCategory());
+                long endTime = System.currentTimeMillis();
+                log.info("Meme retornado com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
+                MemeDTO memeDTO = MemeMapper.toDto(retrievedMeme.get(), categoryDTO, userDTO);
+                return Optional.of(memeDTO);
+            }
             long endTime = System.currentTimeMillis();
-            log.info("Meme retornado com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
-            return MemeMapper.toDto(retrievedMeme, categoryDTO, userDTO);
+            log.info("Meme inexistente. Tempo de processamento: {}ms", (endTime - startTime));
+            return Optional.empty();
         } catch (RuntimeException e) {
             log.error("Erro ao buscar meme: {}", e.getMessage(), e);
             throw e;
@@ -74,27 +80,35 @@ public class MemeService {
         return Memes;
     }
 
-    public Meme updateMeme(Long id, Meme meme) {
+    public Optional<MemeDTO> updateMeme(Long id, Meme meme) {
 
+        log.info("Atualizando meme com id: {}...", id);
+        long startTime = System.currentTimeMillis();
         Optional<Meme> retrievedMeme = memeRepository.findById(id);
         try {
-            log.info("Atualizando meme com id: {}...", id);
-            long startTime = System.currentTimeMillis();
-            Meme newMeme = retrievedMeme.get();
+            if (retrievedMeme.isPresent()) {
+                UserDTO userDTO = userServiceClient.getUser(retrievedMeme.get().getIdUser());
+                CategoryDTO categoryDTO = categoryServiceClient.getCategory(retrievedMeme.get().getIdCategory());
+                Meme newMeme = retrievedMeme.get();
 
-            if (meme.getNome() != null) {
-                newMeme.setNome(meme.getNome());
+                if (meme.getNome() != null) {
+                    newMeme.setNome(meme.getNome());
+                }
+                if (meme.getDescricao() != null) {
+                    newMeme.setDescricao(meme.getDescricao());
+                }
+                if (meme.getIdCategory() != null) {
+                    newMeme.setIdCategory(meme.getIdCategory());
+                }
+                Meme savedMeme = memeRepository.save(newMeme);
+                long endTime = System.currentTimeMillis();
+                log.info("Meme atualizado com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
+                MemeDTO memeDTO = MemeMapper.toDto(retrievedMeme.get(), categoryDTO, userDTO);
+                return Optional.of(memeDTO);
             }
-            if (meme.getDescricao() != null) {
-                newMeme.setDescricao(meme.getDescricao());
-            }
-            if (meme.getIdCategory() != null) {
-                newMeme.setIdCategory(meme.getIdCategory());
-            }
-            Meme savedMeme = memeRepository.save(newMeme);
             long endTime = System.currentTimeMillis();
-            log.info("Meme atualizado com sucesso. Tempo de processamento: {}ms", (endTime - startTime));
-            return savedMeme;
+            log.info("Meme inexistente. Tempo de processamento: {}ms", (endTime - startTime));
+            return Optional.empty();
         } catch (RuntimeException e) {
             if (retrievedMeme.isEmpty()) {
                 log.error("Erro ao atualizar meme: {}", e.getMessage(), e);

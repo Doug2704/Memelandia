@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Douglas Candido
@@ -39,8 +40,11 @@ public class MemeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Recebida requisicao para buscar meme pelo id: {}", id);
+        Optional<MemeDTO> retrievedMemeDTO = memeService.findById(id);
         try {
-            MemeDTO retrievedMemeDTO = memeService.findById(id);
+            if (retrievedMemeDTO.isEmpty()) {
+                return new ResponseEntity<>("Meme inexistente", HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(retrievedMemeDTO, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
@@ -54,10 +58,13 @@ public class MemeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Meme> update(@PathVariable Long id, @RequestBody Meme meme) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Meme meme) {
         log.info("Recebida requisicao para atualizar meme com id: {}", id);
+        Optional<MemeDTO> updatedMeme = memeService.updateMeme(id, meme);
         try {
-            Meme updatedMeme = memeService.updateMeme(id, meme);
+            if (updatedMeme.isEmpty()) {
+                return new ResponseEntity<>("Meme inexistente", HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(updatedMeme, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
