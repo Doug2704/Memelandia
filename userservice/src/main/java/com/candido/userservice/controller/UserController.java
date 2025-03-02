@@ -55,6 +55,9 @@ public class UserController {
         log.info("Recebida requisicao para buscar usuário com id: {}", id);
         Optional<User> retrievedUser = userService.findById(id);
         try {
+            if (retrievedUser.isEmpty()) {
+                return new ResponseEntity<>("Usuário inexistente", HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(retrievedUser, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
@@ -86,7 +89,7 @@ public class UserController {
         try {
             Optional<User> updatedUser = userService.updateUser(id, user);
             if (updatedUser.isEmpty()) {
-                return new ResponseEntity<>("Usuario inexistente", HttpStatus.OK);
+                return new ResponseEntity<>("Usuario inexistente", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);
         } catch (RuntimeException e) {
