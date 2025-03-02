@@ -1,11 +1,16 @@
 package com.candido.api_gateway.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+/**
+ * @author Douglas Candido
+ * Classe de roteamento entre as requisições
+ * O cliente acessa via porta 8080 e
+ * A classe encaminha as requisições para os devidos serviços
+ */
 
 @Configuration
 public class RoutConfig {

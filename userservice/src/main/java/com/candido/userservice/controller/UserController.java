@@ -25,6 +25,13 @@ public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
+    /**
+     * Recebe a requisição e cria o usuário
+     *
+     * @param user
+     * @return usuário criado e {@link HttpStatus#OK}
+     * @see UserService#createUser(User)
+     */
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         log.info("Recebida requisicao para criar usuário");
@@ -36,25 +43,43 @@ public class UserController {
         }
     }
 
+    /**
+     * Recebe a requisição e busca usuário
+     *
+     * @param id
+     * @return usuário salvo e {@link HttpStatus#OK}
+     * @see UserService#findById(Long)
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Recebida requisicao para buscar usuário com id: {}", id);
         Optional<User> retrievedUser = userService.findById(id);
         try {
-            if (retrievedUser.isEmpty()) {
-                return new ResponseEntity<>("Usuário inexistente", HttpStatus.OK);
-            }
             return new ResponseEntity<>(retrievedUser, HttpStatus.OK);
         } catch (RuntimeException e) {
             throw e;
         }
     }
 
+    /**
+     * Recebe a requisição e busca todos os usuários
+     *
+     * @return lsita de usuáriose {@link HttpStatus#OK}
+     * @see UserService#findAll()
+     */
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Recebe a requisição e atualiza usuário caso exista no banco de dados
+     *
+     * @param id
+     * @param user
+     * @return usuário atualizado
+     * ou resposta de usuário inexistente
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User user) {
         log.info("Recebida requisicao para atualizar usuario com id: {}", id);

@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @author Douglas Candido
- *
+ * Entidade de usuários
  */
 @Entity(name = "users")
 @Getter

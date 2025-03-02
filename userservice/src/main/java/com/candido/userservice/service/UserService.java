@@ -24,6 +24,13 @@ public class UserService {
     private final UserRepository userRepository;
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
+    /**
+     * Cria e salva um novo usuário no banco de dados.
+     *
+     * @param user o usuário a ser salvo no banco de dados
+     * @return o usuário salvo com os dados persistidos
+     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     */
     public User createUser(User user) {
         try {
             user.setDataCadastro(Date.valueOf(LocalDate.now()));
@@ -41,6 +48,14 @@ public class UserService {
         }
     }
 
+    /**
+     * Busca um usuário pelo ID
+     *
+     * @param id id do usuário a ser consultado
+     * @return o usuário salvo com os dados persistidos
+     * ou resposta de usuário inexistente
+     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     */
     public Optional<User> findById(Long id) {
         log.info("Buscando usuario com id: {}...", id);
         long startTime = System.currentTimeMillis();
@@ -61,6 +76,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Busca todos os usuários no banco de dados
+     *
+     * @return lista contendo todos os usuários, podendo ser vazia
+     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     */
     public List<User> findAll() {
         try {
             log.info("Buscando usuarios...");
@@ -76,6 +97,15 @@ public class UserService {
         }
     }
 
+    /**
+     * Atualiza usuário caso exista no banco de dados com o ID fornecido
+     *
+     * @param id id do usuário a ser atualizado
+     * @param user usuário contendo as novas informações
+     * @return usuário atualizado
+     * ou resposta de usuário inexistente
+     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     */
     public Optional<User> updateUser(Long id, User user) {
         log.info("buscando usuario com id: {}...", id);
         long startTime = System.currentTimeMillis();
