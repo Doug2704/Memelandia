@@ -25,7 +25,7 @@ public class Meme {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url", nullable = false, length = 1000)
     private String url;
 
     @Column(name = "data_cadastro", nullable = false)

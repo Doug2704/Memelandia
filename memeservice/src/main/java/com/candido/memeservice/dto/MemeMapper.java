@@ -2,6 +2,10 @@ package com.candido.memeservice.dto;
 
 import com.candido.memeservice.entity.Meme;
 
+/**
+ * @author Douglas Candido
+ * Classe que converte entidade de Meme para DTO, ou vice-versa
+ */
 public class MemeMapper {
 
     public static MemeDTO toDto(Meme meme, CategoryDTO categoryDTO, UserDTO user) {

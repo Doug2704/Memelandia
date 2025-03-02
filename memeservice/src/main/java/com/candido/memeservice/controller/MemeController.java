@@ -83,8 +83,8 @@ public class MemeController {
      *
      * @param id
      * @param meme
-     * @return meme atualizado e {@link HttpStatus#OK}
-     * ou resposta de meme inexistente e {@link HttpStatus#NOT_FOUND}
+     * @return meme atualizado{@link HttpStatus#OK}
+     * ou resposta de usuário inexistente e {@link HttpStatus#NOT_FOUND}
      */
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Meme meme) {
