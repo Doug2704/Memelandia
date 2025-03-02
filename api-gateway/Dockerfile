@@ -1,4 +1,3 @@
-
 FROM maven:3.8.4-openjdk-17-slim AS build
 
 WORKDIR /app
@@ -12,9 +11,9 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar /app/memeservice.jar
+COPY --from=build /app/target/*.jar /app/apigateway.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "memeservice.jar"]
+ENTRYPOINT ["java", "-jar", "apigateway.jar"]
 

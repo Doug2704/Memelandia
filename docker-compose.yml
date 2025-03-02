@@ -1,7 +1,7 @@
 services:
   gatewayservice:
     build:
-      context: apigateway
+      context: api-gateway
       dockerfile: Dockerfile
     image: api-gateway
     ports:
