@@ -54,7 +54,7 @@ public class UserService {
      * @param id id do usuário a ser consultado
      * @return o usuário salvo com os dados persistidos
      * ou resposta de usuário inexistente
-     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     * @throws RuntimeException se ocorrer um erro ao buscar o usuário no banco de dados
      */
     public Optional<User> findById(Long id) {
         log.info("Buscando usuario com id: {}...", id);
@@ -80,7 +80,7 @@ public class UserService {
      * Busca todos os usuários no banco de dados
      *
      * @return lista contendo todos os usuários, podendo ser vazia
-     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     * @throws RuntimeException se ocorrer um erro ao buscar usuários no banco de dados
      */
     public List<User> findAll() {
         try {
@@ -104,7 +104,7 @@ public class UserService {
      * @param user usuário contendo as novas informações
      * @return usuário atualizado
      * ou resposta de usuário inexistente
-     * @throws RuntimeException se ocorrer um erro ao salvar o usuário no banco de dados
+     * @throws RuntimeException se ocorrer um erro ao atualizar o usuário no banco de dados
      */
     public Optional<User> updateUser(Long id, User user) {
         log.info("buscando usuario com id: {}...", id);

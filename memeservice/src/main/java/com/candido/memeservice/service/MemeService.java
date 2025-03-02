@@ -32,6 +32,13 @@ public class MemeService {
     private final CategoryServiceClient categoryServiceClient;
     private static final Logger log = LoggerFactory.getLogger(MemeService.class);
 
+    /**
+     * Cria e salva um novo meme no banco de dados.
+     *
+     * @param meme o meme a ser salvo no banco de dados
+     * @return o meme salvo com os dados persistidos
+     * @throws RuntimeException se ocorrer um erro ao salvar o meme no banco de dados
+     */
     public Meme createMeme(Meme meme) {
         try {
             meme.setDataCadastro(Date.valueOf(LocalDate.now()));
@@ -49,6 +56,14 @@ public class MemeService {
         }
     }
 
+    /**
+     * Busca um meme pelo ID
+     *
+     * @param id id do meme a ser consultado
+     * @return um DTO contendo meme, url do meme, descrição, categoria e seu usuário
+     * ou resposta de meme inexistente
+     * @throws RuntimeException se ocorrer um erro ao consultar meme no banco de dados
+     */
     public Optional<MemeDTO> findById(Long id) {
         log.info("Buscando meme com id: {}...", id);
         long startTime = System.currentTimeMillis();
@@ -71,6 +86,12 @@ public class MemeService {
         }
     }
 
+    /**
+     * Busca todos os memes no banco de dados
+     *
+     * @return lista contendo todos os memes, podendo ser vazia
+     * @throws RuntimeException se ocorrer um erro ao buscar memes no banco de dados
+     */
     public List<Meme> findAll() {
         log.info("Buscando memes no banco de dados...");
         long startTime = System.currentTimeMillis();

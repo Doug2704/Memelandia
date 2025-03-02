@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * @author Douglas Candido
+ * entidade de Memes
  */
 @Entity
 @Getter

@@ -48,6 +48,7 @@ public class UserController {
      *
      * @param id
      * @return usuário salvo e {@link HttpStatus#OK}
+     * ou resposta de usuário inexistente e {@link HttpStatus#NOT_FOUND}
      * @see UserService#findById(Long)
      */
     @GetMapping("/{id}")
@@ -67,7 +68,7 @@ public class UserController {
     /**
      * Recebe a requisição e busca todos os usuários
      *
-     * @return lsita de usuáriose {@link HttpStatus#OK}
+     * @return lista de usuários e {@link HttpStatus#OK}
      * @see UserService#findAll()
      */
     @GetMapping
@@ -80,8 +81,8 @@ public class UserController {
      *
      * @param id
      * @param user
-     * @return usuário atualizado
-     * ou resposta de usuário inexistente
+     * @return usuário atualizado e {@link HttpStatus#OK}
+     * ou resposta de usuário inexistente e {@link HttpStatus#NOT_FOUND}
      */
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody User user) {

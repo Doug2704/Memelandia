@@ -25,6 +25,13 @@ public class MemeController {
     private static final Logger log = LoggerFactory.getLogger(MemeController.class);
     private final MemeService memeService;
 
+    /**
+     * Recebe a requisição e cria o meme
+     *
+     * @param meme
+     * @return meme criado e {@link HttpStatus#OK}
+     * @see MemeService#createMeme(Meme)
+     */
     @PostMapping("/create")
     public ResponseEntity<Meme> createMeme(@RequestBody Meme meme) {
         log.info("Recebida requisicao para criar meme");
@@ -37,6 +44,14 @@ public class MemeController {
         }
     }
 
+    /**
+     * Recebe a requisição e busca o meme
+     *
+     * @param id
+     * @return meme salvo e {@link HttpStatus#OK}
+     * ou resposta de meme inexistente e {@link HttpStatus#NOT_FOUND}
+     * @see MemeService#findById(Long)
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         log.info("Recebida requisicao para buscar meme pelo id: {}", id);
@@ -51,12 +66,26 @@ public class MemeController {
         }
     }
 
+    /**
+     * Recebe a requisição e busca todos os memes
+     *
+     * @return lista de memes e {@link HttpStatus#OK}
+     * @see MemeService#findAll()
+     */
     @GetMapping
     public ResponseEntity<List<Meme>> findAll() {
         log.info("Recebida requisicao para buscar todos os memes");
         return new ResponseEntity<>(memeService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Recebe a requisição e atualiza meme caso exista no banco de dados
+     *
+     * @param id
+     * @param meme
+     * @return meme atualizado e {@link HttpStatus#OK}
+     * ou resposta de meme inexistente e {@link HttpStatus#NOT_FOUND}
+     */
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Meme meme) {
         log.info("Recebida requisicao para atualizar meme com id: {}", id);
